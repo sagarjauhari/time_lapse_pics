@@ -41,11 +41,11 @@ class TimeLapse:
             src_pts = np.float32([ kp1[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
             dst_pts = np.float32([ kp2[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
         
-            M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
+            M, mask = cv2.findHomography( dst_pts, src_pts, cv2.RANSAC, 5.0)
             matchesMask = mask.ravel().tolist()
         
             h,w,d = img1.shape
-            pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
+            pts = np.float32([[0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
             dst = cv2.perspectiveTransform(pts,M)
             
             
@@ -60,8 +60,8 @@ class TimeLapse:
             print "Not enough matches are found - %d/%d" % (len(good),MIN_MATCH_COUNT)
             matchesMask = None
 
-img1 = cv2.imread(join('images','rohit_1.jpg'))
-img2 = cv2.imread(join('images','rohit_2.jpg'))
+img1 = cv2.imread(join('images','win1.jpg'))
+img2 = cv2.imread(join('images','win2.jpg'))
 """
 im = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 surfDetector = cv2.FeatureDetector_create("SURF")
